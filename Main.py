@@ -15,7 +15,7 @@ import DetectChars
 import DetectPlates
 import PossiblePlate
 
-os.chdir(r'C:\Users\Kwesi Joe\Documents\VScode\LicencePlateRecog-master')
+os.chdir(r'C:\Users\ccyam\OneDrive\Desktop\OpenCV_3_License_Plate_Recognition_Python-1')
 # module level variables ##########################################################################
 SCALAR_BLACK = (0.0, 0.0, 0.0)
 SCALAR_WHITE = (255.0, 255.0, 255.0)
@@ -91,8 +91,8 @@ def main():
 
         drawRedRectangleAroundPlate(imgOriginalScene, licPlate)             # draw red rectangle around plate
 
-        print("\nlicense plate read from image = " + licPlate.strChars + "\n")  # write license plate text to std out
-        print("----------------------------------------")
+        #print("\nlicense plate read from image = " + licPlate.strChars + "\n")  # write license plate text to std out
+        #print("----------------------------------------")
 
         writeLicensePlateCharsOnImage(imgOriginalScene, licPlate)           # write license plate text on the image
        
@@ -131,6 +131,13 @@ def main():
                     timeIn=sheet['B'+str(row+1)].value
                     minsSpent=((timeOut-timeIn).total_seconds())/60
                     sheet['D'+str(row+1)] = minsSpent
+                    print('Licence Plate Number: ',licPlate.strChars)
+                    print('Time Entered: ', timeIn)
+                    print('Time Out: ', timeOut)
+                    hours=int(minsSpent/60)
+                    mins=round(minsSpent-hours*60,0)
+
+                    print(f'Time spent: {hours} hours {mins} minutes')
 
         #save the database
 
@@ -140,6 +147,7 @@ def main():
        # cv2.imshow("imgOriginalScene", imgOriginalScene)                # re-show scene image
 
         cv2.imwrite("licencePlate.png", licPlate.imgPlate)          # write image out to file
+        
     # end if else
 
     #cv2.waitKey(0)					# hold windows open until user presses a key
