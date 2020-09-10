@@ -40,25 +40,10 @@ def main():
 
     
     
-
-    # root=Tk()
-    # v = IntVar()
-    # def radioChoice(value):
-    #     v.set(value)
-                
-
-    # Radiobutton(root, text="Arrival", variable=v, value=1, command=lambda: radioChoice(v.get())).pack(anchor=W)
-    # Radiobutton(root, text="Departure", variable=v, value=0, command=lambda: radioChoice(v.get())).pack(anchor=W)
-
-    # # myLabel=Label(root, text=v.get()).pack()
-    # OkButton=Button(root,text='submit',command=root.quit)
-    # OkButton.pack()
     
     
-    
-    # mainloop()
-    
-    incoming=int(input('0 for arrival 1 for departure '))
+    incoming=input('1 for arrival & anything else for departure ').lower()
+    print(incoming, type(incoming))
 
 
 
@@ -68,7 +53,7 @@ def main():
     
 
 
-    imgOriginalScene  = cv2.imread('LicPlateImages/little.jpg')               # open image
+    imgOriginalScene  = cv2.imread('LicPlateImages/10.png')               # open image
 
 
     
@@ -110,26 +95,23 @@ def main():
 
         writeLicensePlateCharsOnImage(imgOriginalScene, licPlate)           # write license plate text on the image
        
-       #change current working directory to database folder
-        # os.chdir('C:\\Users\\Kwesi Joe\\Documents\\VScode\\face recognition')
+       
 
         #load workboook
         database = openpyxl.load_workbook('Database.xlsx')
-
         #open sheet
         sheet = database['Sheet1']
 
         #get last row of the number plate column
         last_row = len(sheet['A'])
         print(incoming, type(incoming))
-        if incoming==1:
+        if incoming=='y':
             #if the car in going into the car park, append registration number
             sheet['A'+str(last_row+1)]= licPlate.strChars
-
             #record arrival time
             sheet['B'+str(last_row+1)] = datetime.now()
-        elif incoming==0:
-            
+        else:
+             
             #if the car is going out, check row where its number got recorded and record the departure time
             for row in range(1,len(sheet['A'])):
                 if sheet.cell(row+1,1).value == licPlate.strChars :
