@@ -15,6 +15,7 @@ import DetectChars
 import DetectPlates
 import PossiblePlate
 
+os.chdir(r'C:\Users\Kwesi Joe\Documents\VScode\LicencePlateRecog-master')
 # module level variables ##########################################################################
 SCALAR_BLACK = (0.0, 0.0, 0.0)
 SCALAR_WHITE = (255.0, 255.0, 255.0)
@@ -58,7 +59,7 @@ def main():
     
     # mainloop()
     
-    incoming=int(input('0 for arrival 1 for departure '))
+    incoming=input('y for arrival n for departure ').lower()
 
 
 
@@ -109,26 +110,32 @@ def main():
         print("----------------------------------------")
 
         writeLicensePlateCharsOnImage(imgOriginalScene, licPlate)           # write license plate text on the image
-       
-       #change current working directory to database folder
-        # os.chdir('C:\\Users\\Kwesi Joe\\Documents\\VScode\\face recognition')
 
+
+       #check if database is in current working directory and create it if it's not
+
+        if 'Database.xlsx' not in os.listdir():
+           database = openpyxl.Workbook()
+           sheet = database[database.sheetnames[0]]
+           sheet['A1'], sheet['B1'], sheet['C1'], sheet['D1'] = ['Registration Number','Arrival Time','Departure Time','Minutes spent']
+        
+        else:
         #load workboook
-        database = openpyxl.load_workbook('Database.xlsx')
+            database = openpyxl.load_workbook('Database.xlsx')
 
         #open sheet
-        sheet = database['Sheet1']
+            sheet = database[database.sheetnames[0]]
 
         #get last row of the number plate column
         last_row = len(sheet['A'])
         print(incoming, type(incoming))
-        if incoming==1:
+        if incoming=='y':
             #if the car in going into the car park, append registration number
             sheet['A'+str(last_row+1)]= licPlate.strChars
 
             #record arrival time
             sheet['B'+str(last_row+1)] = datetime.now()
-        elif incoming==0:
+        else:
             
             #if the car is going out, check row where its number got recorded and record the departure time
             for row in range(1,len(sheet['A'])):
@@ -143,10 +150,6 @@ def main():
 
         database.save('Database.xlsx')
        
-
-
-
-
 
        # cv2.imshow("imgOriginalScene", imgOriginalScene)                # re-show scene image
 
@@ -212,21 +215,3 @@ def writeLicensePlateCharsOnImage(imgOriginalScene, licPlate):
 ###################################################################################################
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
