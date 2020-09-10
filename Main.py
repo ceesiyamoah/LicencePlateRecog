@@ -7,9 +7,6 @@ import os
 import datetime
 import openpyxl, os
 from datetime import datetime
-from tkinter import filedialog
-from tkinter import *
-from PIL import ImageTk,Image
 
 import DetectChars
 import DetectPlates
@@ -35,23 +32,9 @@ def main():
         return                                                          # and exit program
     # end if
 
-    #incoming=input('Y for incoming N for outgoing ').lower()
-    
-
-
-    
-    
-    
-    
+    #Arrival or departure to mimic the camera input
     incoming=input('1 for arrival & anything else for departure ').lower()
     print(incoming, type(incoming))
-
-
-
-
-
-    #window to select file
-    
 
 
     imgOriginalScene  = cv2.imread('LicPlateImages/10.png')               # open image
@@ -100,7 +83,6 @@ def main():
 
 
        #check if database is in current working directory and create it if it's not
-
         if 'Database.xlsx' not in os.listdir():
            database = openpyxl.Workbook()
            sheet = database[database.sheetnames[0]]
@@ -127,30 +109,35 @@ def main():
             for row in range(1,len(sheet['A'])):
                 if sheet.cell(row+1,1).value == licPlate.strChars :
                     timeOut=datetime.now()
+                    #The time at run time as time of exit
                     sheet['C'+str(row+1)] = timeOut
+                    #Retrieve time of arrival from the work sheet
                     timeIn=sheet['B'+str(row+1)].value
+                    #Find the minutes between the two times
                     minsSpent=((timeOut-timeIn).total_seconds())/60
+                    #Save the number of minutes spent in the worksheet
                     sheet['D'+str(row+1)] = minsSpent
+
+                    #Output the number plate, time entered, time exited, hours and minutes spent
                     print('Licence Plate Number: ',licPlate.strChars)
-                    print('Time Entered: ', timeIn)
-                    print('Time Out: ', timeOut)
+                    print('Time Entered: ', timeIn.replace(microsecond=0))
+                    print('Time Out: ', timeOut.replace(microsecond=0))
                     hours=int(minsSpent/60)
                     mins=round(minsSpent-hours*60,0)
 
                     print(f'Time spent: {hours} hours {mins} minutes')
 
         #save the database
-
         database.save('Database.xlsx')
        
 
-       # cv2.imshow("imgOriginalScene", imgOriginalScene)                # re-show scene image
+        cv2.imshow("imgOriginalScene", imgOriginalScene)                # re-show scene image
 
         cv2.imwrite("licencePlate.png", licPlate.imgPlate)          # write image out to file
         
     # end if else
 
-    #cv2.waitKey(0)					# hold windows open until user presses a key
+    
     
     return
 # end main
