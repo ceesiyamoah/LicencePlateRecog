@@ -17,7 +17,7 @@
 - Sarah Addai
 
 ># Introduction
-This project aims to solve the issue of the management of car parks in Ghana. Often in car parks, Attendants have to note the entry time and departure time of the vehicle before making a charge and issuing a receipt. There are also cases where anyone who has to use the parking lot has to be issued a ticket upon entry and on exit will have to produce this receipt. These methods can be inefficient and time wasting. 
+This project aims to solve the issue of the management of car parks in Ghana. Often in car parks, attendants have to note the entry time and departure time of the vehicle before making a charge and issuing a receipt. There are also cases where anyone who has to use the parking lot has to be issued a ticket upon entry and on exit will have to produce this receipt. These methods are inefficient and time wasting. 
  
 >> **Car Park Automation** seeks to eliminate these issues by using the number plates of vehicles entering and exiting the parking lot. **Car Park Automation** uses Computer Vision(*Artificial Neural networks*) to detect the number plates using images from a camera positioned at points of entry and exit of the parking lot.
 
@@ -28,14 +28,14 @@ Upon entry, a car's number plate and time of entry are stored in a database. On 
  The images will be obtained directly from cameras installed at the entry and exit points. 
  To enforce that all images will work well with the model, the picture taken by the camera will have to:
  
- - Be bright enough to see the number plate.
+ - Be bright enough.
  - Be directly aligned with the camera
 ![Acquired image](LicPlateImages/little.jpg)
 **Figure 1: Acquired Image**
 
 When the image is acquired it is sent to the system for analysis.
 >>## Licence Plate Extraction
-When the model is fed the image it does the following:
+When the model is fed the image, it does the following:
 
 1. A Grayscale filter is applied
 2. A blur filter is applied
@@ -92,6 +92,8 @@ Upon exiting, details of a vehicle's stay is shown as below
 
 
 
+References:
 
+https://opencv-python-tutroals.readthedocs.io/en/latest/
 
 
