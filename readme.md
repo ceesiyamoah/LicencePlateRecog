@@ -88,6 +88,7 @@ Upon exiting, details of a vehicle's stay is shown as below
 </tr>
 </table>
 
+># To use run Main. py
 
 
 
